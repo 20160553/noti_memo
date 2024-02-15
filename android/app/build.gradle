@@ -1,6 +1,6 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias libs.plugins.android.application
+    alias libs.plugins.kotlin.android
 }
 
 android {
@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.lifecycle)
     implementation platform(libs.kotlin.bom)
+
     debugImplementation(libs.bundles.debug.compose)
 
     testImplementation 'junit:junit:4.13.2'
