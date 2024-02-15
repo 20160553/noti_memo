@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.viewmodel)
+
     debugImplementation(libs.bundles.debug.compose)
 
     testImplementation 'junit:junit:4.13.2'
