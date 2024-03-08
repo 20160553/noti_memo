@@ -10,6 +10,7 @@ kotlin-bom = "1.8.0"
 lifecycle = "2.7.0"
 hilt = "2.44"
 room = "2.6.1"
+coroutine = "1.7.1"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "corektx" }
@@ -33,11 +34,17 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
+coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
+coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
+
 [bundles]
+room = ["room", "room-ktx"]
 compose = ["compose-activity", "compose-bom", "compose-ui", "compose-ui-graphics", "compose-ui-preview", "compose-material"]
 debug-compose = ["compose-tooling", "compose-test-manifest"]
+coroutine = ["coroutine-core", "coroutine-android"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

@@ -1,6 +1,7 @@
 package com.podiot.noti_memo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -21,8 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,9 +35,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.podiot.noti_memo.data.model.Note
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.podiot.noti_memo.domain.model.NoteModel
+import com.podiot.noti_memo.screen.CreateNoteViewModel
+import com.podiot.noti_memo.screen.NoteViewModel
 import com.podiot.noti_memo.ui.theme.Noti_memoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,10 +66,10 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    val noteViewModel = viewModel<NoteViewModel>()
+    val createNoteViewModel = viewModel<CreateNoteViewModel>()
 
-    var list = remember {
-        mutableStateListOf<Note>()
-    }
+    val notes = noteViewModel.noteList.collectAsState().value
     var value by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxSize()) {
@@ -83,7 +89,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(20.dp)
             )
             Button(onClick = {
-                list.add(Note(content = value))
+                /* TODO Search Favorite */
             }) {
                 Text(text = "클릭", color = Color.White)
             }
@@ -98,7 +104,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.Start,
 
             ) {
-            items(list) { note ->
+            items(notes) { note ->
                 Surface(
                     Modifier
                         .padding(4.dp)
@@ -132,10 +138,23 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 onValueChange = { value = it },
                 maxLines = 10,
                 textStyle = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(20.dp).weight(1f)
+                modifier = Modifier
+                    .padding(20.dp)
+                    .weight(1f)
             )
             Button(onClick = {
-                list.add(Note(content = value))
+                Log.d("add", "add $value")
+                createNoteViewModel.insertNote(
+                    NoteModel(
+                        content = value,
+                        ymd = SimpleDateFormat(
+                            "yyyyMMdd",
+                            Locale.getDefault()
+                        ).format(System.currentTimeMillis())
+                            .toInt(),
+                        time = System.currentTimeMillis(),
+                    )
+                )
             }) {
                 Text(text = "클릭")
             }

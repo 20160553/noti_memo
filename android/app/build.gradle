@@ -58,12 +58,15 @@ dependencies {
     implementation project(':domain')
 
     implementation(libs.core.ktx)
+    implementation platform(libs.kotlin.bom)
     implementation(libs.bundles.compose)
     implementation(libs.lifecycle)
-    implementation platform(libs.kotlin.bom)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
 
     implementation(libs.viewmodel)
 
