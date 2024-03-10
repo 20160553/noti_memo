@@ -1,5 +1,6 @@
 package com.podiot.noti_memo.data.repository
 
+import android.util.Log
 import com.podiot.noti_memo.data.dao.NoteDao
 import com.podiot.noti_memo.data.util.toNote
 import com.podiot.noti_memo.domain.model.NoteModel
@@ -16,27 +17,11 @@ class NoteRepositoryImpl @Inject constructor(val noteDao: NoteDao) : NoteReposit
         noteDao.getAll().map { notes -> notes.map { note -> note.toNoteModel() } }
             .flowOn(Dispatchers.IO).conflate()
 
-    override suspend fun getRecentFiveNotes(): List<NoteModel> {
+    override suspend fun getRecentNotes(): List<NoteModel> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getFavoriteList(bool: Boolean): List<NoteModel> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getNoteListSelectedTime(ymd: Int): List<NoteModel> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun countNote(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getNoteUsingUid(uid: Int?): NoteModel {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun countNoteSelectedTime(ymd: Int): Int {
         TODO("Not yet implemented")
     }
 
@@ -47,9 +32,10 @@ class NoteRepositoryImpl @Inject constructor(val noteDao: NoteDao) : NoteReposit
 
     override suspend fun delete(noteModel: NoteModel) = noteDao.delete(noteModel.toNote())
 
-    override suspend fun findByResult(search: String): List<NoteModel> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun search(keyword: String): List<NoteModel> =
+        noteDao.search("%$keyword%").map { note ->
+            note.toNoteModel()
+        }
 
     override suspend fun update(noteModel: NoteModel) = noteDao.update(noteModel.toNote())
 }

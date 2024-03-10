@@ -1,4 +1,4 @@
-package com.podiot.noti_memo.utils
+package com.podiot.noti_memo.domain.utils
 
 
 const val DB_NAME = "noteDB"

@@ -5,4 +5,4 @@ import com.podiot.noti_memo.domain.model.NoteModel
 
 
 fun NoteModel.toNote(): Note =
-    Note(content = this.content, favorite = this.favorite, ymd = this.ymd, time = this.time)
+    Note(uid = this.uid, content = this.content, favorite = this.favorite, ymd = this.ymd, time = this.time)
