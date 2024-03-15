@@ -1,0 +1,8 @@
+<resources>
+    <integer name="request_code_help">101</integer>
+    <integer name="notification_id">200</integer>
+
+    <integer name="notification_reply_request_code">301</integer>
+    <integer name="notification_stop_request_code">300</integer>
+    <integer name="post_notification_permission_code">1001</integer>
+</resources>

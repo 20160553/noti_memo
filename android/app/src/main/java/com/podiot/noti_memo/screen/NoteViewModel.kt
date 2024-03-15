@@ -35,7 +35,6 @@ class NoteViewModel @Inject constructor(
     }
 
     fun search(keyword: String) = viewModelScope.launch(Dispatchers.IO) {
-        Log.d("search", "$keyword ${getNoteUsecase.search(keyword)}")
         _noteList.value = getNoteUsecase.search(keyword)
     }
 

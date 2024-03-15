@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">noti_memo</string>
+
+    <string name="notification_reply">NotificationReply</string>
+    <string name="channel_id">"상단바 메모</string>
+    <string name="channel_name">상단바 메모</string>
+    <string name="channel_desc">상단바 메모</string>
+
+    <string name="notification_reply_key">상단바 메모</string>
+    <string name="notification_reply_label">메모를 입력해주세요</string>
 </resources>

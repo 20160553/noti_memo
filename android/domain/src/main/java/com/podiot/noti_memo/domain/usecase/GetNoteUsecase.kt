@@ -5,7 +5,7 @@ import com.podiot.noti_memo.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNoteUsecase @Inject constructor(val noteRepository: NoteRepository) {
+class GetNoteUsecase @Inject constructor(private val noteRepository: NoteRepository) {
 
     suspend fun getNotes(): Flow<List<NoteModel>> = noteRepository.getNotes()
 

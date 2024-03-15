@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +44,7 @@ fun NoteScreen(
     notes: List<NoteModel>,
     expendedNoteId: Int? = null,
     noteContentEditFlag: Boolean,
+    scrollState: LazyListState,
     onSearch: (keyword: String) -> Unit,
     onInsertNote: (note: NoteModel) -> Unit,
     onClickNote: (note: NoteModel) -> Unit,
@@ -65,6 +69,7 @@ fun NoteScreen(
                 .weight(1f)
                 .background(Color.Gray),
             clickedNoteId = expendedNoteId,
+            scrollState = scrollState,
             noteContentEditFlag = noteContentEditFlag,
             onClickNote = onClickNote,
             onUpdateNote = onUpdateNote,
@@ -116,6 +121,7 @@ fun NoteLazyColumn(
     modifier: Modifier = Modifier,
     notes: List<NoteModel>,
     clickedNoteId: Int?,
+    scrollState: LazyListState,
     noteContentEditFlag: Boolean,
     onClickNote: (note: NoteModel) -> Unit,
     onUpdateNote: (note: NoteModel) -> Unit,
@@ -125,6 +131,7 @@ fun NoteLazyColumn(
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.Start,
+        state = scrollState
     ) {
         itemsIndexed(
             items = notes,
@@ -173,7 +180,17 @@ fun NoteLazyColumn(
                         )
 
                         Button(onClick = {
-                            onUpdateNote(note.copy(content = value))
+                            onUpdateNote(
+                                note.copy(
+                                    content = value,
+                                    ymd = SimpleDateFormat(
+                                        "yyyyMMdd",
+                                        Locale.getDefault()
+                                    ).format(System.currentTimeMillis())
+                                        .toInt(),
+                                    time = System.currentTimeMillis()
+                                )
+                            )
                         }) {
                             Text(text = "수정")
                         }
@@ -227,7 +244,7 @@ fun NoteInsertLayout(
                     time = System.currentTimeMillis(),
                 )
             )
-
+            value = ""
         }) {
             Text(text = "클릭")
         }
@@ -241,6 +258,7 @@ fun NoteScreenPreview() {
         listOf(),
         null,
         false,
+        LazyListState(),
         onSearch = {},
         onInsertNote = {},
         onClickNote = {},
